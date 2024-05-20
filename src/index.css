@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root{
+    height: 100%;
+}
+
+body{
+    --tw-bg-opacity: 1;
+    background-color: rgb(23 37 84 / var(--tw-bg-opacity));
+
+}
