@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import "../customCSS/carritoMiniatura.css"
+import { CarritoList } from "./carritoList"
 
 
 interface carritoMinitaturaProps{
@@ -15,19 +16,7 @@ export const CarritoMiniatura: React.FC<carritoMinitaturaProps> = ({ carritoArra
     return (
         <div className={` overflow-hidden flex justify-center items-center absolute right-6 bottom-3 bg-blue-900 border-4 border-white text-white transition-all duration-500 ease-in-out: ${expanded ? 'expanded' : 'collapsed'}`}>
             {expanded && (<>
-                <ul className={`  overflow-y-scroll h-72 w-72 absolute left-3 top-3 flex flex-col gap-2 transition-all duration-500 ease-in-out `}>
-                    {carritoArray.map(prenda => ( 
-                        <li key={prenda.id}>
-                            <div className="shadow-md">
-                                <img src={prenda.img} alt={prenda.name} className="w-16 h-16 overflow-hidden" />
-                                <p>{prenda.name}</p>
-                                <p>${prenda.price.toFixed(2)}</p>
-                            </div>
-                            
-                        </li>
-                        
-                    ))}
-                </ul>
+                <CarritoList carritoArray={carritoArray}/>
                 <div className="flex justify-between items-center absolute bottom-4 left-4">
                     <p>Total: ${total.toFixed(2)}</p>
                     <button className="bg-blue-900 text-white p-2 rounded-full">Pagar</button>

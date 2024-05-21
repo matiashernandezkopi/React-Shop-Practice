@@ -3,13 +3,16 @@ import './App.css'
 import { Sidebar } from './components/sidebar';
 import { SelectedContent } from './components/selectedContent';
 import { CarritoMiniatura } from './components/carritoMinuatura';
-import { carritoArray } from './services/carrito';
+import { useSelector } from 'react-redux';
 
 
 
-
+interface RootState {
+  carritoArray: prendaCarrito[];
+}
 function App() {
   const [content,setContent] = useState<string>("Main")
+  const carritoArray = useSelector((state:RootState) => state.carritoArray);
   
   
   
