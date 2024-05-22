@@ -30,6 +30,7 @@ export const todaySetter = () => {
 interface VentasData {
     name: string;
     phone: number;
+    email:string;
     amount: number;
     date: string;
 }
@@ -56,7 +57,7 @@ const dateFormater = (date:string):string=>{
 
 
 
-export const addVentas = async ({name,phone,amount,date}:VentasData): Promise<Array<Ventas>> => {
+export const addVentas = async ({name,phone,email,amount,date}:VentasData): Promise<Array<Ventas>> => {
     
     if (!name) {
         name = "unknown";
@@ -78,6 +79,7 @@ export const addVentas = async ({name,phone,amount,date}:VentasData): Promise<Ar
                         'id': "INCREMENT",
                         'name': name,
                         'phone': phone,
+                        'email': email,
                         'amount': amount,
                         'date': date
                     }

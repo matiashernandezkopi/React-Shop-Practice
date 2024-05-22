@@ -45,6 +45,9 @@ export const MouseForm: React.FC<MouseFormProps> = ({ isOpen, onSubmit, onClose,
         if (type === "date") {
             return "date";
         }
+        if (type === "email") {
+            return "email";
+        }
         return "number";
     };
 

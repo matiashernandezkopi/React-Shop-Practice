@@ -24,6 +24,9 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
     }, {
         header: "Telefono",
         accessorKey: "phone"
+    },{
+        header: "Email",
+        accessorKey: "email"
     }, {
         header: "Cantidad",
         accessorKey: "amount"
@@ -118,7 +121,8 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
 
     return (
         <>
-            <MouseForm isOpen={isFormOpen} onSubmit={handleFormSubmit} onClose={handleFormClose}  type={cellType} actualCellValue={actualCellValue}/>
+            {isFormOpen && (<MouseForm isOpen={isFormOpen} onSubmit={handleFormSubmit} onClose={handleFormClose}  type={cellType} actualCellValue={actualCellValue}/>)}
+            
             <table className="min-w-full divide-y divide-blue-500">
                 <thead className="bg-blue-500 text-white w-full">
                     {table.getHeaderGroups().map(headerGroup => (

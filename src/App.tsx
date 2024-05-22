@@ -4,6 +4,7 @@ import { Sidebar } from './components/sidebar';
 import { SelectedContent } from './components/selectedContent';
 import { CarritoMiniatura } from './components/carritoMinuatura';
 import { useSelector } from 'react-redux';
+import { LoginForm } from './components/loginForm';
 
 
 
@@ -12,16 +13,22 @@ interface RootState {
 }
 function App() {
   const [content,setContent] = useState<string>("Main")
+  const [openLogin,setOpenLogin]=useState<boolean>(false)
   const carritoArray = useSelector((state:RootState) => state.carritoArray);
   
-  
+  const onClose = ()=>{
+    setOpenLogin(false)
+  }
   
 
   return (
     <>
-      
+      <button className=' absolute right-0 p-1 bg-blue-900 border-2 border-white text-white rounded-lg' onClick={()=>setOpenLogin(true)}>Login</button>
       <Sidebar setContent={setContent} content={content} />
+      
       <main className=' ml-36 h-full'>
+        
+        {openLogin && <LoginForm onClose={onClose}/>}
         <div className='h-full'>
           <SelectedContent content={content} />
         </div>
