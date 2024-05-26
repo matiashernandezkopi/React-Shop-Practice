@@ -26,6 +26,7 @@ export const CarritoMiniatura: React.FC<carritoMinitaturaProps> = ({ carritoArra
             )}
 
             <button
+                
                 onClick={() => setExpanded(!expanded)}
                 className="absolute bottom-6 right-4 transition-transform transform hover:scale-105"
             >
