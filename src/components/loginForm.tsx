@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 interface LoginFormProps {
@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     testPassword: '',
+    phone:2284123456
 };
 
 type ErrorType = "passwordLength" | "emailRegistered" | "invalidEmail" | "passwordMismatch" | "nameLength";
@@ -18,62 +19,77 @@ type ErrorMessage = [ErrorType];
 export const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
     const [user, setUser] = useState<User>(INITIAL_STATE);
     const [errors, setErrors] = useState<ErrorMessage[]>([]);
+    const [trySubmit,setTrySubmit]=useState<boolean>(false)
     const inputClassname = "border border-gray-300 rounded-md p-2 mb-2 w-full text-black";
 
-    const errorMessages: ErrorMessage[] = [];
+    const validation = () => {
+        const errorMessages: ErrorMessage[] = [];
+        const addError = (type: ErrorType) => {
+            errorMessages.push([type]);
+        }
+        if (trySubmit) {
+            if (user.name.length < 5) {
+                addError("nameLength");
+            }
+    
+            if (user.password !== user.testPassword) {
+                addError("passwordMismatch");
+            }
+    
+            if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                addError("invalidEmail");
+            }
+    
+            if (user.password.length < 5) {
+                addError("passwordLength");
+            }
+    
+            setErrors(errorMessages);
+            return errorMessages.length === 0;
+        }
+        return false;
+    };
 
-    const addError = (type: ErrorType) => {
-        errorMessages.push([type]);
-    }
+    
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setTrySubmit(true);
 
-        if (user.name.length<5) {
-            addError("nameLength");
+        const isvalid = validation()
+        
+        if (!isvalid) {
+            console.log("fail", user);
+        } else {
+            console.log("submit", errors);
+            onClose(); 
+
+            /** TODO 
+             * 
+             * guardar el usuario en una variable en App.tsx para luego recuperarla en el carrito. y que se utilice para las ventas
+            */
         }
 
-        if (user.password !== user.testPassword) {
-            addError("passwordMismatch");
-        }
-
-        if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-            addError("invalidEmail");
-        }
-
-        if (user.password.length < 5) {
-            addError("passwordLength");
-        }
-
-         
-        await new Promise<void>(resolve => {
-            setErrors(errorMessages);
-
-            
-            if (errorMessages.length > 0) {
-                console.log("fail", user);
-            } else {
-                console.log("submit", errors);
-                onClose(); 
-
-                /** TODO 
-                 * 
-                 * guardar el usuario en una variable en App.tsx para luego recuperarla en el carrito. y que se utilice para las ventas
-                */
-            }
-
-            resolve(); 
-        });
 
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser(prevState => ({
             ...prevState,
             [name]: value
         }));
+
+        await new Promise<void>((resolve) => {
+            validation();
+            resolve();
+        }) 
+        
+        
+
     };
+
+    useEffect(() => {()=>validation()},[user]);
 
     
 
