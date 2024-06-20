@@ -1,9 +1,9 @@
 export interface Ventas{
     id?:number,
     name:string,
-    phone:number,
+    phone?:number,
     email:string,
-    amount:number,
+    amount?:number,
     date:string
 }
 

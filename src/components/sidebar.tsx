@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import React from "react"
 
-const buttonClassName = "shadow-md text-white border-2 border-white  bg-blue-900 hover:border-blue-900  hover:bg-white hover:text-blue-900 hover:translate-x-1 border-gray-900 transition-all rounded-md w-32"
+const buttonClassName = "shadow-md text-white border-2 border-white  bg-blue-900 hover:border-blue-900  hover:bg-white hover:text-blue-900 hover:translate-x-1 border-gray-900 transition-all rounded-md w-32 "
 
 interface sidebarProps {
     setContent: Dispatch<SetStateAction<string>>;
@@ -31,7 +31,7 @@ export const Sidebar: React.FC<sidebarProps> = ({setContent,content})=>{
                 <div className='w-11/12 h-4 bg-blue-900  border-2 border-white rounded-3xl'></div>
                 <p></p>
             </div>
-            <button onClick={() => setExpand(!expand)} className={`${sidebarClassName} transition-all ${expand?"bg-blue-900 text-white  border-white ":"bg-white text-blue-900 border-blue-900"} border-2 rounded-xl m-2 h-10 w-10 font-extrabold `}>{expand?"<":">"}</button>
+            <button onClick={() => setExpand(!expand)} className={`${sidebarClassName} transition-all ${expand?"bg-blue-900 text-white  border-white ":"bg-white text-blue-900 border-blue-900"} border-2 rounded-xl m-2 h-10 w-10 font-extrabold z-50 `}>{expand?"<":">"}</button>
         </div>
     );
 };

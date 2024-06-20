@@ -29,7 +29,7 @@ export const Ropa: React.FC<RopaProps> = ({ prenda }) => {
 
 
     return (
-        <div key={prenda.id} className=' sm:h-1/2 p-2 w-72 rounded-md bg-cyan-600  text-center flex flex-col items-center justify-between gap-4 sm:gap-2 shadow-xl hover:-translate-y-1.5  transition-all'>
+        <div key={prenda.id} className='  sm:h-1/2 p-2 w-72 rounded-md bg-cyan-600  text-center flex flex-col items-center justify-between gap-4 sm:gap-2 shadow-xl hover:-translate-y-1.5  transition-all'>
             <h3 className=' sm:text-3x1 text-blue-200 text-2xl font-bold sm:h-16 flex items-center justify-center'>{prenda.name}</h3>
             <img className='w-64 rounded-md' src={prenda.img} alt={prenda.name} />
             <p className='text-white bg-blue-900 rounded-md w-11/12'>{prenda.description}</p>

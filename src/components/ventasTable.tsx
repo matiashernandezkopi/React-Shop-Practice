@@ -35,28 +35,6 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
         accessorKey: "date"
     }];
     
-    /**const [pagination, setPagination] = React.useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    })
-
-    const table = useReactTable({
-        columns,
-        data,
-        debugTable: true,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onPaginationChange: setPagination,
-        //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
-        state: {
-        pagination,
-        },
-        // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
-    }) */
-
-    // Assuming useReactTable handles rendering internally
     
     const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
     const [pagination, setPagination] = React.useState<PaginationState>({
@@ -79,7 +57,7 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
     const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
     const [editingRowId, setEditingRowId] = useState<string | null>(null);
 
-    const handleCellClick = (event: React.MouseEvent<HTMLTableCellElement>, Id: string,cellType:string,rowId: string,cellValue:string) => {
+    const handleCellClick = (Id: string,cellType:string,rowId: string,cellValue:string) => {
         if (rowId===selectedRowId) {
             setActualCellValue(cellValue)
             setCellType(cellType)
@@ -145,7 +123,7 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id}  className={selectedRowId === row.id ? "bg-blue-200" : ""}>
                             {row.getVisibleCells().map(cell => (
-                            <td key={cell.id} onClick={(e) => handleCellClick(e, row.getValue("id"), cell.column.id,row.id,cell.getValue() as string)} className="px-6 py-4 whitespace-nowrap">
+                            <td key={cell.id} onClick={() => handleCellClick(row.getValue("id"), cell.column.id,row.id,cell.getValue() as string)} className="px-6 py-4 whitespace-nowrap">
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}
@@ -156,22 +134,26 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
                     ))}
                 </tbody>
             </table>
-            <div className="h-2" />
-            <div className="flex items-center gap-2">
+            <div className="flex justify-center items-center gap-2">
                 <button
-                className="border rounded p-1"
-                onClick={() => table.firstPage()}
-                disabled={!table.getCanPreviousPage()}
-                >
-                {'<<'}
+                    className="border rounded p-1"
+                    onClick={() => table.firstPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    >
+                    {'<<'}
+                    </button>
+                    <button
+                    className="border rounded p-1"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    >
+                    {'<'}
                 </button>
-                <button
-                className="border rounded p-1"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-                >
-                {'<'}
-                </button>
+                
+                Showing {table.getRowModel().rows.length.toLocaleString()} of{' '}
+                {table.getRowCount().toLocaleString()} Rows
+
+
                 <button
                 className="border rounded p-1"
                 onClick={() => table.nextPage()}
@@ -186,6 +168,10 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
                 >
                 {'>>'}
                 </button>
+            </div>
+            {/*<div className="flex items-center gap-2">
+                
+                
                 <span className="flex items-center gap-1">
                 <div>Page</div>
                 <strong>
@@ -217,12 +203,9 @@ export const VentasTable: React.FC<VentasTableProps> = ({ data, actualizar ,setA
                     </option>
                 ))}
                 </select>
-            </div>
-            <div>
-                Showing {table.getRowModel().rows.length.toLocaleString()} of{' '}
-                {table.getRowCount().toLocaleString()} Rows
-            </div>
-            <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre>
+            </div>*/}
+            
+            
             
         </>
     );

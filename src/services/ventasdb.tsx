@@ -2,36 +2,17 @@ import { Ventas } from "../types/VentasDefinitions";
 
 const key:string = "82uxjap53chst"
 
-
-export const getToday = ():string=> {
-    let today = todaySetter()
-    today = dateFormater(today)
-    return today;
-}
-
-
-
 export const todaySetter = () => {
     const todaye = new Date();
-    
-    
     const formattedDate = todaye.toISOString().substring(0, 10);
     return formattedDate;
 }
 
-
-
-
-
-
-
-
-
 interface VentasData {
     name: string;
-    phone: number;
+    phone?: number;
     email:string;
-    amount: number;
+    amount?: number;
     date: string;
 }
 
@@ -49,11 +30,7 @@ export const getVentas = async (): Promise<Array<Ventas>> => {
     }
 }
 
-const dateFormater = (date:string):string=>{
-    const partes = date.split("-");
-    const nuevaFecha = `${partes[2]}/${partes[1]}/${partes[0]}`;
-    return nuevaFecha;
-}
+
 
 
 
@@ -62,9 +39,33 @@ export const addVentas = async ({name,phone,email,amount,date}:VentasData): Prom
     if (!name) {
         name = "unknown";
     }
+
+    if (!amount) {
+        amount = 0;
+    }
+
+    if (!phone) {
+        phone = 0;
+    }
+
+
+    const numStr = amount.toString();
+
+    // Separar los grupos de tres desde el final del número hacia el inicio
+    let formattedNumber = '';
+    let count = 0;
     
-    date=dateFormater(date)
+    for (let i = numStr.length - 1; i >= 0; i--) {
+        count++;
+        formattedNumber = numStr.charAt(i) + formattedNumber;
+        if (count % 3 === 0 && i !== 0) {
+            formattedNumber = '.' + formattedNumber;
+        }
+    }
     
+    const partes = date.split("-");
+    const fixedDate =  `${partes[2]}/${partes[1]}/${partes[0]}`;
+       
     
     try {
         const response = await fetch(`https://sheetdb.io/api/v1/${key}`, {
@@ -80,8 +81,8 @@ export const addVentas = async ({name,phone,email,amount,date}:VentasData): Prom
                         'name': name,
                         'phone': phone,
                         'email': email,
-                        'amount': amount,
-                        'date': date
+                        'amount': "$"+formattedNumber,
+                        'date': fixedDate
                     }
                 ]
             })
@@ -99,10 +100,6 @@ export const addVentas = async ({name,phone,email,amount,date}:VentasData): Prom
     }
 }
 
-
-
-
-
 export const deleteVenta = async (ventaid: number) => {
     try {
         await fetch(`https://sheetdb.io/api/v1/${key}/id/${ventaid}`, {
@@ -113,21 +110,17 @@ export const deleteVenta = async (ventaid: number) => {
             }
         });
 
-        // Si la eliminación fue exitosa, busca las ventas actualizadas
+        
         const updatedVentas = await getVentas();
         return updatedVentas;
     } catch (error) {
         console.error('Error al eliminar la venta:', error);
-        throw error; // Re-lanza el error para que sea manejado por quien llamó a deleteVenta
+        throw error; 
     }
 }
 
-/*necesito un onclick que tome el id, el dato a cambiar y el nuevo valor
 
-    asi se lo doy a la funcion y hace el cambio
-*/
 export const updatedVentas = async (ventaid: number,data:string,value:string) => {
-    console.log(data,"data",value,"value","updatedVentas");
     
     fetch(`https://sheetdb.io/api/v1/${key}/id/${ventaid}`, {
         method: 'PATCH',
@@ -142,6 +135,5 @@ export const updatedVentas = async (ventaid: number,data:string,value:string) =>
         })
     })
     .then((response) => response.json())
-    .then((data) => console.log(data));
 
 }
