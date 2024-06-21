@@ -57,6 +57,15 @@ export const VentasList: React.FC = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
+        if (name === 'amount') {
+            
+            setNewVenta(prevState => ({
+                ...prevState,
+                [name]: parseFloat(value)
+            }));
+            
+            return
+        }
 
         setNewVenta(prevState => ({
             ...prevState,

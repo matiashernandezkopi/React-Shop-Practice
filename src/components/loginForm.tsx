@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 interface LoginFormProps {
     onClose: () => void;
+    toLogin: (name: string, email: string, phone?: number | undefined) => void;
 }
 
 const INITIAL_STATE = {
@@ -16,7 +17,7 @@ const INITIAL_STATE = {
 type ErrorType = "passwordLength" | "emailRegistered" | "invalidEmail" | "passwordMismatch" | "nameLength";
 type ErrorMessage = [ErrorType];
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ onClose,toLogin }) => {
     const [user, setUser] = useState<User>(INITIAL_STATE);
     const [errors, setErrors] = useState<ErrorMessage[]>([]);
     const [trySubmit,setTrySubmit]=useState<boolean>(false)
@@ -62,12 +63,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
             console.log("fail", user);
         } else {
             console.log("submit", errors);
+            toLogin(user.name, user.email, user.phone);
             onClose(); 
 
-            /** TODO 
-             * 
-             * guardar el usuario en una variable en App.tsx para luego recuperarla en el carrito. y que se utilice para las ventas
-            */
+            
         }
 
 

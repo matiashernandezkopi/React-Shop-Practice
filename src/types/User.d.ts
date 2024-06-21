@@ -5,3 +5,9 @@ interface User{
     testPassword:string,
     phone?:number
 }
+
+interface LoggedUser{
+    name:string,
+    email:string,
+    phone?:number
+}

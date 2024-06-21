@@ -13,7 +13,7 @@ interface VentasData {
     phone?: number;
     email:string;
     amount?: number;
-    date: string;
+    date?: string;
 }
 
 export const getVentas = async (): Promise<Array<Ventas>> => {
@@ -35,7 +35,10 @@ export const getVentas = async (): Promise<Array<Ventas>> => {
 
 
 export const addVentas = async ({name,phone,email,amount,date}:VentasData): Promise<Array<Ventas>> => {
-    
+    if (!date) {
+        date = todaySetter()
+    }
+
     if (!name) {
         name = "unknown";
     }
@@ -48,20 +51,24 @@ export const addVentas = async ({name,phone,email,amount,date}:VentasData): Prom
         phone = 0;
     }
 
+    
+    const amountStr = amount.toFixed(2);
+    const [integerPart, decimalPart] = amountStr.split('.');
 
-    const numStr = amount.toString();
-
-    // Separar los grupos de tres desde el final del número hacia el inicio
+    
     let formattedNumber = '';
     let count = 0;
-    
-    for (let i = numStr.length - 1; i >= 0; i--) {
+
+    for (let i = integerPart.length - 1; i >= 0; i--) {
         count++;
-        formattedNumber = numStr.charAt(i) + formattedNumber;
+        formattedNumber = integerPart.charAt(i) + formattedNumber;
         if (count % 3 === 0 && i !== 0) {
             formattedNumber = '.' + formattedNumber;
         }
     }
+
+    
+    
     
     const partes = date.split("-");
     const fixedDate =  `${partes[2]}/${partes[1]}/${partes[0]}`;
@@ -81,7 +88,7 @@ export const addVentas = async ({name,phone,email,amount,date}:VentasData): Prom
                         'name': name,
                         'phone': phone,
                         'email': email,
-                        'amount': "$"+formattedNumber,
+                        'amount': "$"+formattedNumber + ',' + decimalPart,
                         'date': fixedDate
                     }
                 ]

@@ -15,9 +15,12 @@ export const useSlice = createSlice({
         },
         removeFromCarrito: (state, action) => {
             return state.filter(item => item.id !== action.payload);
+        },
+        cleanCarrito: () => {
+            return initialState;
         }
     }
 })
 
-export const {addToCarrito, removeFromCarrito} = useSlice.actions
+export const {addToCarrito, removeFromCarrito,cleanCarrito} = useSlice.actions
 export default useSlice.reducer

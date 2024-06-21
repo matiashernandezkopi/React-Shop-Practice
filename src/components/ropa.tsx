@@ -1,7 +1,7 @@
 import React from "react";
 import { Prenda } from "../types/Prenda";
 import { ropaGuardada } from '../services/ropaDB';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCarrito } from "../redux/userSlice";
 
 
@@ -10,24 +10,12 @@ interface RopaProps {
     prenda: Prenda;
 }
 
-interface RootState{
-    carritoArray:Prenda[]
-}
+
 
 
 export const Ropa: React.FC<RopaProps> = ({ prenda }) => {
-    const carritoArray = useSelector((state:RootState) => state.carritoArray);
     const dispatch = useDispatch();
-
-    const handleAddToCarrito = () => {
-        console.log("click add carito");
-        
-        dispatch(addToCarrito(prenda));
-        console.log(carritoArray);
-        
-    };
-
-
+    
     return (
         <div key={prenda.id} className='  sm:h-1/2 p-2 w-72 rounded-md bg-cyan-600  text-center flex flex-col items-center justify-between gap-4 sm:gap-2 shadow-xl hover:-translate-y-1.5  transition-all'>
             <h3 className=' sm:text-3x1 text-blue-200 text-2xl font-bold sm:h-16 flex items-center justify-center'>{prenda.name}</h3>
@@ -36,7 +24,7 @@ export const Ropa: React.FC<RopaProps> = ({ prenda }) => {
             
             <div className='flex justify-between w-11/12 font-medium'>
                 <p className='text-white h-7'>Stock: {prenda.amount}</p>
-                <button onClick={handleAddToCarrito} className=' cursor-pointer text-white bg-blue-900 rounded-full border-2 border-white hover:-translate-y-0.5  transition-all hover:border-blue-900 hover:bg-white hover:text-blue-900 w-28 h-7'>${prenda.price.toFixed(2)}</button>
+                <button onClick={()=>dispatch(addToCarrito(prenda))} className=' cursor-pointer text-white bg-blue-900 rounded-full border-2 border-white hover:-translate-y-0.5  transition-all hover:border-blue-900 hover:bg-white hover:text-blue-900 w-28 h-7'>${prenda.price.toFixed(2)}</button>
             </div>
         </div>
     );
