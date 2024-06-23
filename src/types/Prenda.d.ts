@@ -1,5 +1,5 @@
-export interface Prenda{
-    id:string
+interface Prenda{
+    ip:string
     name:string
     img:string
     description:string

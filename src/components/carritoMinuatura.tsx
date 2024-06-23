@@ -3,7 +3,8 @@ import "../customCSS/carritoMiniatura.css"
 import { useDispatch } from 'react-redux';
 import { CarritoList } from "./carritoList"
 import { addVentas } from "../services/ventasdb"
-import { cleanCarrito } from "../redux/userSlice"
+import { cleanCarrito} from "../redux/userSlice"
+import { updateRopaGuardada } from "../services/ropaDB";
 
 interface LoggedUser{
     name:string,
@@ -28,8 +29,13 @@ export const CarritoMiniatura: React.FC<carritoMinitaturaProps> = ({ carritoArra
     
     const pay = ()=>{
         addVentas({name,email,phone,amount})
+        updateRopaGuardada(carritoArray);
         dispatch(cleanCarrito());
+
     }
+
+
+
     return (
         <div className={` overflow-hidden flex justify-center items-center absolute right-6 bottom-3 bg-blue-900 border-4 border-white text-white transition-all duration-500 ease-in-out: ${expanded ? 'expanded' : 'collapsed'}`}>
             {expanded && (<>

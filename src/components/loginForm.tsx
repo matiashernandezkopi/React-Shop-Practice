@@ -28,48 +28,41 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onClose,toLogin }) => {
         const addError = (type: ErrorType) => {
             errorMessages.push([type]);
         }
-        if (trySubmit) {
-            if (user.name.length < 5) {
-                addError("nameLength");
-            }
-    
-            if (user.password !== user.testPassword) {
-                addError("passwordMismatch");
-            }
-    
-            if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-                addError("invalidEmail");
-            }
-    
-            if (user.password.length < 5) {
-                addError("passwordLength");
-            }
-    
-            setErrors(errorMessages);
-            return errorMessages.length === 0;
+       
+        if (user.name.length < 5) {
+            addError("nameLength");
         }
-        return false;
+
+        if (user.password !== user.testPassword) {
+            addError("passwordMismatch");
+        }
+
+        if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+            addError("invalidEmail");
+        }
+
+        if (user.password.length < 5) {
+            addError("passwordLength");
+        }
+
+        setErrors(errorMessages);
+        return errorMessages.length === 0;
+    
+        
     };
 
     
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setTrySubmit(true);
-
-        const isvalid = validation()
+        const isvalid = validation();
         
-        if (!isvalid) {
-            console.log("fail", user);
-        } else {
-            console.log("submit", errors);
-            toLogin(user.name, user.email, user.phone);
-            onClose(); 
-
-            
-        }
-
-
+        isvalid&&(
+            toLogin(user.name, user.email, user.phone),
+            onClose()
+        )
+         
     }
 
     const handleChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,14 +71,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onClose,toLogin }) => {
             ...prevState,
             [name]: value
         }));
-
-        await new Promise<void>((resolve) => {
-            validation();
-            resolve();
-        }) 
-        
-        
-
+        trySubmit&&(validation())
     };
 
     useEffect(() => {()=>validation()},[user]);

@@ -7,9 +7,6 @@ import { useSelector } from 'react-redux';
 import { LoginForm } from './components/loginForm';
 
 
-interface RootState {
-  carritoArray: prendaCarrito[];
-}
 
 
 function App() {
@@ -27,15 +24,12 @@ function App() {
     }
     
     setUser(newLogedUser)
-    console.log(logedUser);
     
   }
 
   const toLogout = ()=>{
     setUser(null)
   }
-
-
 
 
   const carritoArray = useSelector((state:RootState) => state.carritoArray);
