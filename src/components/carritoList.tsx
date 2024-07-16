@@ -14,9 +14,23 @@ export const CarritoList:React.FC<carrtitoListProps>=({ carritoArray })=>{
     const dispatch = useDispatch();
 
     const handleRemoveFromCarrito = (id: string) => {
+
+        /**TODO 
+         * el carrito necestia una actualizacion para podes agregar y eliminar multiples veces la misma prenda.
+         * 
+         * creo que podria hacer algo asi como removeFromCarrito(state, action: PayloadAction<{ ip: string; units: number }>)
+         *  siendo units la cantidad de unidades agregadas. y que lo utilice para restarlo al carritoArray
+         *  
+         *  de paso mantiene el id cada prenda, y no hace falta agregar mas de una ves la misma
+         * 
+         * 
+         * tambien: que se puedan comprar variables (ej:distintos colores) y que eso modifique el id (newID = id + idDelColor),
+         * para poder eliminar o modificar la cantidad de unidades especifica de ese articulo, con esas cualidades
+         * 
+        */
+       
         dispatch(removeFromCarrito(id));
     };
-
 
     return( 
     <ul className={`  overflow-y-scroll h-72 w-72 absolute left-3 top-3 flex flex-col gap-2 transition-all duration-500 ease-in-out `}>

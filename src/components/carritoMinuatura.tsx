@@ -31,10 +31,7 @@ export const CarritoMiniatura: React.FC<carritoMinitaturaProps> = ({ carritoArra
         addVentas({name,email,phone,amount})
         updateRopaGuardada(carritoArray);
         dispatch(cleanCarrito());
-
     }
-
-
 
     return (
         <div className={` overflow-hidden flex justify-center items-center absolute right-6 bottom-3 bg-blue-900 border-4 border-white text-white transition-all duration-500 ease-in-out: ${expanded ? 'expanded' : 'collapsed'}`}>

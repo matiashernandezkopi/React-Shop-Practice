@@ -6,9 +6,6 @@ import { CarritoMiniatura } from './components/carritoMinuatura';
 import { useSelector } from 'react-redux';
 import { LoginForm } from './components/loginForm';
 
-
-
-
 function App() {
   const [content,setContent] = useState<string>("Main")
   const [openLogin,setOpenLogin]=useState<boolean>(false)
@@ -24,20 +21,17 @@ function App() {
     }
     
     setUser(newLogedUser)
-    
   }
 
   const toLogout = ()=>{
     setUser(null)
   }
 
-
   const carritoArray = useSelector((state:RootState) => state.carritoArray);
   
   const onClose = ()=>{
     setOpenLogin(false)
   }
-  
 
   return (
     <>
@@ -54,7 +48,6 @@ function App() {
         </div>
         <CarritoMiniatura carritoArray={carritoArray} LogedUser={logedUser}/>
       </main> 
-      
     </>
   
   )
